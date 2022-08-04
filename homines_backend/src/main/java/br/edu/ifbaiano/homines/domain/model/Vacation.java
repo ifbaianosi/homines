@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,7 +17,7 @@ public class Vacation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idVacations;
+	private Long id;
 	
 	private OffsetDateTime period1DateBegin;
 	
@@ -28,13 +30,19 @@ public class Vacation {
 	private OffsetDateTime period3DateBegin;
 	
 	private OffsetDateTime period3DateEnd;
+	
+	private int year;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Employee employee;
 
-	public Long getIdVacations() {
-		return idVacations;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdVacations(Long idVacations) {
-		this.idVacations = idVacations;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public OffsetDateTime getPeriod1DateBegin() {
@@ -85,9 +93,25 @@ public class Vacation {
 		this.period3DateEnd = period3DateEnd;
 	}
 
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(idVacations);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -99,7 +123,7 @@ public class Vacation {
 		if (getClass() != obj.getClass())
 			return false;
 		Vacation other = (Vacation) obj;
-		return Objects.equals(idVacations, other.idVacations);
+		return Objects.equals(id, other.id);
 	}
 	
 	

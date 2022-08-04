@@ -17,7 +17,7 @@ public class Ordinace {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idOrdinances;
+	private Long id;
 	
 	private OffsetDateTime date;
 	
@@ -29,14 +29,14 @@ public class Ordinace {
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
-	private Server server;
+	private Employee employee;
 
-	public Long getIdOrdinances() {
-		return idOrdinances;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdOrdinances(Long idOrdinances) {
-		this.idOrdinances = idOrdinances;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public OffsetDateTime getDate() {
@@ -71,17 +71,17 @@ public class Ordinace {
 		this.post = post;
 	}
 
-	public Server getServer() {
-		return server;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setServer(Server server) {
-		this.server = server;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idOrdinances);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class Ordinace {
 		if (getClass() != obj.getClass())
 			return false;
 		Ordinace other = (Ordinace) obj;
-		return Objects.equals(idOrdinances, other.idOrdinances);
+		return Objects.equals(id, other.id);
 	}
 	
 	
