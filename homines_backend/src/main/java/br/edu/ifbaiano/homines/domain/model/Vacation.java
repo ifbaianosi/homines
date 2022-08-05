@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -31,6 +32,7 @@ public class Vacation {
 	
 	private OffsetDateTime period3DateEnd;
 	
+	@NotNull
 	private int year;
 	
 	@ManyToOne
@@ -125,6 +127,4 @@ public class Vacation {
 		Vacation other = (Vacation) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 }

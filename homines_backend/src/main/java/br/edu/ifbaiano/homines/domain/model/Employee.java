@@ -4,10 +4,15 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Table
@@ -17,10 +22,13 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	private String name;
 	
 	private String rg;
 	
+	@NotBlank
+	@CPF
 	private String cpf;
 	
 	private OffsetDateTime birthday;
@@ -33,7 +41,8 @@ public class Employee {
 	
 	private String classes;
 	
-	private int siape;
+	@NotBlank
+	private String siape;
 	
 	private String functions;
 	
@@ -53,7 +62,8 @@ public class Employee {
 	
 	private String frequency;
 	
-	private String career;
+	@Enumerated(EnumType.STRING)
+	private Career career;
 
 	public Long getId() {
 		return id;
@@ -127,11 +137,11 @@ public class Employee {
 		this.classes = classes;
 	}
 
-	public int getSiape() {
+	public String getSiape() {
 		return siape;
 	}
 
-	public void setSiape(int siape) {
+	public void setSiape(String siape) {
 		this.siape = siape;
 	}
 
@@ -207,11 +217,11 @@ public class Employee {
 		this.frequency = frequency;
 	}
 
-	public String getCareer() {
+	public Career getCareer() {
 		return career;
 	}
 
-	public void setCareer(String career) {
+	public void setCareer(Career career) {
 		this.career = career;
 	}
 

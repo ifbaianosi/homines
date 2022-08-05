@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
@@ -26,6 +27,7 @@ public class Progression {
 	
 	private OffsetDateTime nextProgressionDate;
 	
+	@NotBlank
 	private String progressionMonth;
 	
 	@OneToOne

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -21,8 +22,10 @@ public class Ordinace {
 	
 	private OffsetDateTime date;
 	
+	@NotNull
 	private String ordinance;
 	
+	@NotNull
 	private String subject;
 	
 	private String post;
