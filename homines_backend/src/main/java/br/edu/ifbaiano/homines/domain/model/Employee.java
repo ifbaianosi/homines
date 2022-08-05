@@ -1,6 +1,6 @@
 package br.edu.ifbaiano.homines.domain.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ public class Employee {
 	@CPF
 	private String cpf;
 	
-	private OffsetDateTime birthday;
+	private LocalDate birthday;
 	
 	private String email;
 	
@@ -52,9 +52,9 @@ public class Employee {
 	
 	private String sector;
 	
-	private OffsetDateTime entryDate;
+	private LocalDate entryDate;
 	
-	private OffsetDateTime departureDate;
+	private LocalDate departureDate;
 	
 	private String substituteOf;
 	
@@ -97,11 +97,11 @@ public class Employee {
 		this.cpf = cpf;
 	}
 
-	public OffsetDateTime getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(OffsetDateTime birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
@@ -177,19 +177,19 @@ public class Employee {
 		this.sector = sector;
 	}
 
-	public OffsetDateTime getEntryDate() {
+	public LocalDate getEntryDate() {
 		return entryDate;
 	}
 
-	public void setEntryDate(OffsetDateTime entryDate) {
+	public void setEntryDate(LocalDate entryDate) {
 		this.entryDate = entryDate;
 	}
 
-	public OffsetDateTime getDepartureDate() {
+	public LocalDate getDepartureDate() {
 		return departureDate;
 	}
 
-	public void setDepartureDate(OffsetDateTime departureDate) {
+	public void setDepartureDate(LocalDate departureDate) {
 		this.departureDate = departureDate;
 	}
 
