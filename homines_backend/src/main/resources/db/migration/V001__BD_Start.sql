@@ -57,11 +57,11 @@ CREATE TABLE IF NOT EXISTS `homines`.`vacation` (
   `period2_date_end` DATE NULL,
   `period3_date_begin` DATE NULL,
   `period3_date_end` DATE NULL,
-  `server_id` BIGINT(60) NOT NULL,
-  PRIMARY KEY (`id`, `server_id`),
-  INDEX `fk_vacation_server_idx` (`server_id` ASC) VISIBLE,
-  CONSTRAINT `fk_vacation_server`
-    FOREIGN KEY (`server_id`)
+  `employee_id` BIGINT(60) NOT NULL,
+  PRIMARY KEY (`id`, `employee_id`),
+  INDEX `fk_vacation_employeer_idx` (`employee_id` ASC) VISIBLE,
+  CONSTRAINT `fk_vacation_employee`
+    FOREIGN KEY (`employee_id`)
     REFERENCES `homines`.`employee` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -77,11 +77,11 @@ CREATE TABLE IF NOT EXISTS `homines`.`ordinance` (
   `ordinance` VARCHAR(45) NULL,
   `subject` VARCHAR(45) NOT NULL,
   `post` VARCHAR(45) NULL,
-  `server_id` BIGINT(60) NOT NULL,
-  PRIMARY KEY (`id`, `server_id`),
-  INDEX `fk_ordinance_server1_idx` (`server_id` ASC) VISIBLE,
-  CONSTRAINT `fk_ordinance_server1`
-    FOREIGN KEY (`server_id`)
+  `employee_id` BIGINT(60) NOT NULL,
+  PRIMARY KEY (`id`, `employee_id`),
+  INDEX `fk_ordinance_employee_idx` (`employee_id` ASC) VISIBLE,
+  CONSTRAINT `fk_ordinance_employee`
+    FOREIGN KEY (`employee_id`)
     REFERENCES `homines`.`employee` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -101,8 +101,8 @@ CREATE TABLE IF NOT EXISTS `homines`.`probationary_stage` (
   `third_avaliation_date_end` DATE NULL,
   `employee_id` BIGINT(60) NOT NULL,
   PRIMARY KEY (`id`, `employee_id`),
-  INDEX `fk_probationary_stage_employee1_idx` (`employee_id` ASC) VISIBLE,
-  CONSTRAINT `fk_probationary_stage_employee1`
+  INDEX `fk_probationary_stage_employee_idx` (`employee_id` ASC) VISIBLE,
+  CONSTRAINT `fk_probationary_stage_employee`
     FOREIGN KEY (`employee_id`)
     REFERENCES `homines`.`employee` (`id`)
     ON DELETE NO ACTION
@@ -122,8 +122,8 @@ CREATE TABLE IF NOT EXISTS `homines`.`progression` (
   `progression_month` VARCHAR(45) NOT NULL,
   `employee_id` BIGINT(60) NOT NULL,
   PRIMARY KEY (`id`, `employee_id`),
-  INDEX `fk_progression_employee1_idx` (`employee_id` ASC) VISIBLE,
-  CONSTRAINT `fk_progression_employee1`
+  INDEX `fk_progression_employee_idx` (`employee_id` ASC) VISIBLE,
+  CONSTRAINT `fk_progression_employee`
     FOREIGN KEY (`employee_id`)
     REFERENCES `homines`.`employee` (`id`)
     ON DELETE NO ACTION

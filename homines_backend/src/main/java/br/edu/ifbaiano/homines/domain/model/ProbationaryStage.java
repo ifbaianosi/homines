@@ -1,6 +1,6 @@
 package br.edu.ifbaiano.homines.domain.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -18,17 +18,17 @@ public class ProbationaryStage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private OffsetDateTime firstAvaliationDateBegin;
+	private LocalDate firstAvaliationDateBegin;
 	
-	private OffsetDateTime firstAvaliationDateEnd;
+	private LocalDate firstAvaliationDateEnd;
 	
-	private OffsetDateTime secondAvaliationDateBegin;
+	private LocalDate secondAvaliationDateBegin;
 	
-	private OffsetDateTime secondAvaliationDateEnd;
+	private LocalDate secondAvaliationDateEnd;
 	
-	private OffsetDateTime thirdAvaliationDateBegin;
+	private LocalDate thirdAvaliationDateBegin;
 	
-	private OffsetDateTime thirdAvaliationDateEnd;
+	private LocalDate thirdAvaliationDateEnd;
 	
 	@OneToOne
 	private Employee employee;
@@ -58,51 +58,51 @@ public class ProbationaryStage {
 		this.id = id;
 	}
 
-	public OffsetDateTime getFirstAvaliationDateBegin() {
+	public LocalDate getFirstAvaliationDateBegin() {
 		return firstAvaliationDateBegin;
 	}
 
-	public void setFirstAvaliationDateBegin(OffsetDateTime firstAvaliationDateBegin) {
+	public void setFirstAvaliationDateBegin(LocalDate firstAvaliationDateBegin) {
 		this.firstAvaliationDateBegin = firstAvaliationDateBegin;
 	}
 
-	public OffsetDateTime getFirstAvaliationDateEnd() {
+	public LocalDate getFirstAvaliationDateEnd() {
 		return firstAvaliationDateEnd;
 	}
 
-	public void setFirstAvaliationDateEnd(OffsetDateTime firstAvaliationDateEnd) {
+	public void setFirstAvaliationDateEnd(LocalDate firstAvaliationDateEnd) {
 		this.firstAvaliationDateEnd = firstAvaliationDateEnd;
 	}
 
-	public OffsetDateTime getSecondAvaliationDateBegin() {
+	public LocalDate getSecondAvaliationDateBegin() {
 		return secondAvaliationDateBegin;
 	}
 
-	public void setSecondAvaliationDateBegin(OffsetDateTime secondAvaliationDateBegin) {
+	public void setSecondAvaliationDateBegin(LocalDate secondAvaliationDateBegin) {
 		this.secondAvaliationDateBegin = secondAvaliationDateBegin;
 	}
 
-	public OffsetDateTime getSecondAvaliationDateEnd() {
+	public LocalDate getSecondAvaliationDateEnd() {
 		return secondAvaliationDateEnd;
 	}
 
-	public void setSecondAvaliationDateEnd(OffsetDateTime secondAvaliationDateEnd) {
+	public void setSecondAvaliationDateEnd(LocalDate secondAvaliationDateEnd) {
 		this.secondAvaliationDateEnd = secondAvaliationDateEnd;
 	}
 
-	public OffsetDateTime getThirdAvaliationDateBegin() {
+	public LocalDate getThirdAvaliationDateBegin() {
 		return thirdAvaliationDateBegin;
 	}
 
-	public void setThirdAvaliationDateBegin(OffsetDateTime thirdAvaliationDateBegin) {
+	public void setThirdAvaliationDateBegin(LocalDate thirdAvaliationDateBegin) {
 		this.thirdAvaliationDateBegin = thirdAvaliationDateBegin;
 	}
 
-	public OffsetDateTime getThirdAvaliationDateEnd() {
+	public LocalDate getThirdAvaliationDateEnd() {
 		return thirdAvaliationDateEnd;
 	}
 
-	public void setThirdAvaliationDateEnd(OffsetDateTime thirdAvaliationDateEnd) {
+	public void setThirdAvaliationDateEnd(LocalDate thirdAvaliationDateEnd) {
 		this.thirdAvaliationDateEnd = thirdAvaliationDateEnd;
 	}
 
