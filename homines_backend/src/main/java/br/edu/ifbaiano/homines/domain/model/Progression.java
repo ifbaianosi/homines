@@ -1,6 +1,6 @@
 package br.edu.ifbaiano.homines.domain.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -23,9 +23,9 @@ public class Progression {
 	
 	private String nextLevel;
 	
-	private OffsetDateTime lastProgressionDate;
+	private LocalDate lastProgressionDate;
 	
-	private OffsetDateTime nextProgressionDate;
+	private LocalDate nextProgressionDate;
 	
 	@NotBlank
 	private String progressionMonth;
@@ -57,19 +57,19 @@ public class Progression {
 		this.nextLevel = nextLevel;
 	}
 
-	public OffsetDateTime getLastProgressionDate() {
+	public LocalDate getLastProgressionDate() {
 		return lastProgressionDate;
 	}
 
-	public void setLastProgressionDate(OffsetDateTime lastProgressionDate) {
+	public void setLastProgressionDate(LocalDate lastProgressionDate) {
 		this.lastProgressionDate = lastProgressionDate;
 	}
 
-	public OffsetDateTime getNextProgressionDate() {
+	public LocalDate getNextProgressionDate() {
 		return nextProgressionDate;
 	}
 
-	public void setNextProgressionDate(OffsetDateTime nextProgressionDate) {
+	public void setNextProgressionDate(LocalDate nextProgressionDate) {
 		this.nextProgressionDate = nextProgressionDate;
 	}
 
