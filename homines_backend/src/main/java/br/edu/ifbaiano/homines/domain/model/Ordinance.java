@@ -1,6 +1,6 @@
 package br.edu.ifbaiano.homines.domain.model;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -14,13 +14,13 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
-public class Ordinace {
+public class Ordinance {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private OffsetDateTime date;
+	private LocalDate date;
 	
 	@NotNull
 	private String ordinance;
@@ -42,11 +42,11 @@ public class Ordinace {
 		this.id = id;
 	}
 
-	public OffsetDateTime getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(OffsetDateTime date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
@@ -95,10 +95,7 @@ public class Ordinace {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Ordinace other = (Ordinace) obj;
+		Ordinance other = (Ordinance) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
 }
