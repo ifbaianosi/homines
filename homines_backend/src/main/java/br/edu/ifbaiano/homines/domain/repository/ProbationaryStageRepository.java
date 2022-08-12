@@ -9,6 +9,6 @@ import br.edu.ifbaiano.homines.domain.model.ProbationaryStage;
 
 public interface ProbationaryStageRepository extends JpaRepository<ProbationaryStage, Long>{
 
-	@Query("from Employee e join fetch ProbationaryStage pb where e.id=:employeeId")
+	@Query("from ProbationaryStage pb where pb.employee.id = :employeeId")
 	List<ProbationaryStage> probationaryStageByEmployee(Long employeeId);
 }
