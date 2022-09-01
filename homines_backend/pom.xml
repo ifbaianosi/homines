@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.1</version>
+		<version>2.6.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.edu.ifbaiano.homines</groupId>
@@ -32,13 +32,7 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-		</dependency>
-		
-		<dependency>
-  			<groupId>org.flywaydb</groupId>
-  			<artifactId>flyway-mysql</artifactId>
-		</dependency>
-		
+		</dependency>		
 		<dependency>
      		<groupId>mysql</groupId>
      		<artifactId>mysql-connector-java</artifactId>
@@ -63,6 +57,10 @@
 		  	<groupId>org.modelmapper</groupId>
 		  	<artifactId>modelmapper</artifactId>
 		  	<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -131,6 +131,17 @@ CREATE TABLE IF NOT EXISTS `homines`.`progression` (
 ENGINE = InnoDB;
 
 
+
+-- -----------------------------------------------------
+-- Table `homines`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `homines`.`user` (
+  `id` BIGINT(60) NOT NULL AUTO_INCREMENT,
+  `user` VARCHAR(60) NOT NULL,
+  `password` VARCHAR(60) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
