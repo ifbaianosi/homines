@@ -8,6 +8,8 @@ public class HominesBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HominesBackendApplication.class, args);
+		
+		//System.out.println(new BCryptPasswordEncoder().encode("teste"));
 	}
 
 }
