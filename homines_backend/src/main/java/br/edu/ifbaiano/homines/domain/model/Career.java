@@ -3,7 +3,7 @@ package br.edu.ifbaiano.homines.domain.model;
 public enum Career {
 
 	TAE("TAE"),
-	DOCENT("Docent"),
+	DOCENT("Docente"),
 	SUBSTITUTE("Professor Substituto");
 	
 	private String description;

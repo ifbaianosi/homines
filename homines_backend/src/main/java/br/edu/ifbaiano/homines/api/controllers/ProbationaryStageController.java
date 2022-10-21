@@ -1,5 +1,6 @@
 package br.edu.ifbaiano.homines.api.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -40,8 +41,8 @@ public class ProbationaryStageController {
 	private EmployeeService employeeService;
 
 	@GetMapping
-	public List<ProbationaryStage> list(@PathVariable Long employeeId) {
-		return probationaryStageRepository.probationaryStageByEmployee(employeeId);
+	public ProbationaryStage list(@PathVariable Long employeeId) {
+		return probationaryStageRepository.byEmployee(employeeId);
 	}
 	
 	@PostMapping
@@ -60,7 +61,7 @@ public class ProbationaryStageController {
 		modelMapper.map(probationaryStage, probationaryStageFromBD);
 		
 		probationaryStageFromBD.setEmployee(employee);
-		probationaryStageFromBD = probationaryStageRepository.save(probationaryStageFromBD);
+		probationaryStageFromBD = probationaryStageService.create(employeeId, probationaryStageFromBD);
 		
 		return ResponseEntity.ok(probationaryStageFromBD);
 	}

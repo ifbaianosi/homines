@@ -21,9 +21,11 @@ public class ProbationaryStageService {
 	public ProbationaryStage create(Long employeeId, ProbationaryStage probationaryStage) {
 		Employee employee = employeeService.findOrFail(employeeId);
 		probationaryStage.setEmployee(employee);
-		return probationaryStageRepository.save(probationaryStage);
+		
+		
+		return null;
 	}
-	
+
 	public ProbationaryStage findOrFail(Long probationaryStageId) {
 		return probationaryStageRepository.findById(probationaryStageId)
 				.orElseThrow(() -> new EntityNotFoundException(

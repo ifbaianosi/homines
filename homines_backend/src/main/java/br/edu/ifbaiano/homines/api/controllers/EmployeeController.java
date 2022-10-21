@@ -18,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifbaiano.homines.api.DTO.EmployeeDTO;
 import br.edu.ifbaiano.homines.domain.model.Employee;
+import br.edu.ifbaiano.homines.domain.model.ProbationaryStage;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepository;
 import br.edu.ifbaiano.homines.domain.service.EmployeeService;
+import br.edu.ifbaiano.homines.domain.service.ProbationaryStageService;
 
 @RestController
 @RequestMapping("/employees")
@@ -31,15 +34,16 @@ public class EmployeeController {
 	
 	@Autowired
 	private EmployeeService employeeService;
-	
+		
 	@GetMapping
 	public List<Employee> list(){
 		return employeeRepository.findAll();
 	}
 	
 	@GetMapping("/{employeeId}")
-	public Employee show(@PathVariable Long employeeId) {
-		return employeeService.findOrFail(employeeId);
+	public EmployeeDTO show(@PathVariable Long employeeId) {
+			
+		return employeeService.createEmployeeDTO(employeeId);
 	}
 	
 	@PostMapping
