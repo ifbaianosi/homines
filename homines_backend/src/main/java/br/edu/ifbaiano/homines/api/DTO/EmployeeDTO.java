@@ -5,15 +5,36 @@ import java.time.LocalDate;
 public class EmployeeDTO {
 
 	
+	private String name;
+	private String siape;
+	private String email;
 	private String probationaryStageAvaliation;
 	private String nextAvaliation;
 	private String actualProgression;
 	private String nextProgression;
 	private int vacationYear = 0;
-	private int ordinances = 0;
-	private LocalDate ordinancesDate;
+	private String ordinance;
+	private LocalDate ordinanceDate;
 	private int totalOrdinances;
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSiape() {
+		return siape;
+	}
+	public void setSiape(String siape) {
+		this.siape = siape;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getProbationaryStageAvaliation() {
 		return probationaryStageAvaliation;
 	}
@@ -44,17 +65,17 @@ public class EmployeeDTO {
 	public void setVacationYear(int vacationYear) {
 		this.vacationYear = vacationYear;
 	}
-	public int getOrdinances() {
-		return ordinances;
+	public String getOrdinance() {
+		return ordinance;
 	}
-	public void setOrdinances(int ordinances) {
-		this.ordinances = ordinances;
+	public void setOrdinance(String ordinance) {
+		this.ordinance = ordinance;
 	}
 	public LocalDate getOrdinancesDate() {
-		return ordinancesDate;
+		return ordinanceDate;
 	}
 	public void setOrdinancesDate(LocalDate ordinancesDate) {
-		this.ordinancesDate = ordinancesDate;
+		this.ordinanceDate = ordinancesDate;
 	}
 	public int getTotalOrdinances() {
 		return totalOrdinances;
@@ -62,4 +83,5 @@ public class EmployeeDTO {
 	public void setTotalOrdinances(int totalOrdinances) {
 		this.totalOrdinances = totalOrdinances;
 	}
+	
 }

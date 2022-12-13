@@ -1,8 +1,5 @@
 package br.edu.ifbaiano.homines.api.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;

@@ -9,4 +9,5 @@ public interface ProgressionRepository extends JpaRepository<Progression, Long>{
 	
 	@Query("from Progression p where p.employee.id = :employeeId")
 	Progression progressionByEmployee(Long employeeId);
+	
 }

@@ -1,5 +1,6 @@
 package br.edu.ifbaiano.homines.api.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,10 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifbaiano.homines.api.DTO.EmployeeDTO;
 import br.edu.ifbaiano.homines.domain.model.Employee;
-import br.edu.ifbaiano.homines.domain.model.ProbationaryStage;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepository;
 import br.edu.ifbaiano.homines.domain.service.EmployeeService;
-import br.edu.ifbaiano.homines.domain.service.ProbationaryStageService;
 
 @RestController
 @RequestMapping("/employees")
@@ -38,6 +37,16 @@ public class EmployeeController {
 	@GetMapping
 	public List<Employee> list(){
 		return employeeRepository.findAll();
+	}
+	
+	@GetMapping("/career-count")
+	public HashMap<String, Integer> careerCount(){
+		HashMap<String, Integer> career = new HashMap<String, Integer>();
+		career.put("TAE", employeeRepository.careerCountTAE());
+		career.put("Teacher", employeeRepository.careerCountTeacher());
+		career.put("All", employeeRepository.careerCount());
+		
+		return career;
 	}
 	
 	@GetMapping("/{employeeId}")
