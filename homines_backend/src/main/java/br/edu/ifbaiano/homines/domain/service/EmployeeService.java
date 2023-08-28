@@ -61,9 +61,6 @@ public class EmployeeService {
 	}
 
 	public EmployeeDTO createEmployeeDTO(Long employeeId) {
-//		LocalDate teste;
-//		
-//		teste = LocalDate.parse("2023-03-04");
 		
 		Employee employee = new Employee();
 		ProbationaryStage probationaryStage = new ProbationaryStage();

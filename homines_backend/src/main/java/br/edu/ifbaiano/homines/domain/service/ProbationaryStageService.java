@@ -23,7 +23,7 @@ public class ProbationaryStageService {
 		probationaryStage.setEmployee(employee);
 		
 		
-		return null;
+		return probationaryStageRepository.save(probationaryStage);
 	}
 
 	public ProbationaryStage findOrFail(Long probationaryStageId) {

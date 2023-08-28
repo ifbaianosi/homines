@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import br.edu.ifbaiano.homines.domain.model.Employee;
 
-public interface EmployeeRepository extends JpaRepository<Employee, Long>{
+public interface EmployeeRepository extends JpaRepository<Employee, Long>, EmployeeRepositoryQueries{
 
 	@Query("select count(e.career) from Employee e where e.career = 'TAE'")
 	Integer careerCountTAE();
@@ -15,4 +15,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 	
 	@Query("select count(e.career) from Employee e")
 	Integer careerCount();
+	
 }

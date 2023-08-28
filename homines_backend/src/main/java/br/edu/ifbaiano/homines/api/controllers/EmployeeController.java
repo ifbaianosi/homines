@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifbaiano.homines.api.DTO.EmployeeDTO;
+import br.edu.ifbaiano.homines.domain.model.Career;
 import br.edu.ifbaiano.homines.domain.model.Employee;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepository;
 import br.edu.ifbaiano.homines.domain.service.EmployeeService;
@@ -47,6 +48,11 @@ public class EmployeeController {
 		career.put("All", employeeRepository.careerCount());
 		
 		return career;
+	}
+	
+	@GetMapping("/query")
+	public List<Object[]> query(Career career, String classes, String stand, String post, String sector, String avaliation, String situation){
+		return employeeRepository.find(career, classes, stand, post, sector, avaliation, situation);
 	}
 	
 	@GetMapping("/{employeeId}")
