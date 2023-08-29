@@ -32,12 +32,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 		
 		var parameters = new HashMap<String, Object>();
 		
-		List<Long> probationayStages = new ArrayList<>();
+		List<Long> probationaryStages = new ArrayList<>();
 		
-		probationayStages = probationaryStageRepository.onlyEmployeeId();
-		//jpql.append("from Employee e where 0 = 0 and e.id in (:probationayStages)");
+		probationaryStages = probationaryStageRepository.onlyEmployeeId();
+		jpql.append("from Employee e where 0 = 0");
 		
-		probationayStages.stream().forEach(item -> System.out.println(item));
+		probationaryStages.stream().forEach(item -> System.out.println(item));
 
 		
 		if(career != null) {
