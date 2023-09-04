@@ -1,21 +1,15 @@
 package br.edu.ifbaiano.homines.api.DTO;
 
-import java.time.LocalDate;
-
 public class EmployeeDTO {
 
 	
 	private String name;
 	private String siape;
 	private String email;
-	private String probationaryStageAvaliation;
-	private String nextAvaliation;
-	private String actualProgression;
-	private String nextProgression;
-	private int vacationYear = 0;
-	private String ordinance;
-	private LocalDate ordinanceDate;
-	private int totalOrdinances;
+	private ProbationaryStageDTO probationaryStageDTO;
+	private ProgressionDTO progressionDTO;
+	private VacationDTO vacationDTO;
+	private OrdinanceDTO ordinanceDTO;
 	
 	public String getName() {
 		return name;
@@ -35,53 +29,30 @@ public class EmployeeDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getProbationaryStageAvaliation() {
-		return probationaryStageAvaliation;
+	public ProbationaryStageDTO getProbationaryStageDTO() {
+		return probationaryStageDTO;
 	}
-	public void setProbationaryStageAvaliation(String probationaryStageAvaliation) {
-		this.probationaryStageAvaliation = probationaryStageAvaliation;
+	public void setProbationaryStageDTO(ProbationaryStageDTO probationaryStageDTO) {
+		this.probationaryStageDTO = probationaryStageDTO;
 	}
-	public String getNextAvaliation() {
-		return nextAvaliation;
+	public ProgressionDTO getProgressionDTO() {
+		return progressionDTO;
 	}
-	public void setNextAvaliation(String nextAvaliation) {
-		this.nextAvaliation = nextAvaliation;
+	public void setProgressionDTO(ProgressionDTO progressionDTO) {
+		this.progressionDTO = progressionDTO;
 	}
-	public String getActualProgression() {
-		return actualProgression;
+	public VacationDTO getVacationDTO() {
+		return vacationDTO;
 	}
-	public void setActualProgression(String actualProgression) {
-		this.actualProgression = actualProgression;
+	public void setVacationDTO(VacationDTO vacationDTO) {
+		this.vacationDTO = vacationDTO;
 	}
-	public String getNextProgression() {
-		return nextProgression;
+	public OrdinanceDTO getOrdinanceDTO() {
+		return ordinanceDTO;
 	}
-	public void setNextProgression(String nextProgression) {
-		this.nextProgression = nextProgression;
+	public void setOrdinanceDTO(OrdinanceDTO ordinanceDTO) {
+		this.ordinanceDTO = ordinanceDTO;
 	}
-	public int getVacationYear() {
-		return vacationYear;
-	}
-	public void setVacationYear(int vacationYear) {
-		this.vacationYear = vacationYear;
-	}
-	public String getOrdinance() {
-		return ordinance;
-	}
-	public void setOrdinance(String ordinance) {
-		this.ordinance = ordinance;
-	}
-	public LocalDate getOrdinancesDate() {
-		return ordinanceDate;
-	}
-	public void setOrdinancesDate(LocalDate ordinancesDate) {
-		this.ordinanceDate = ordinancesDate;
-	}
-	public int getTotalOrdinances() {
-		return totalOrdinances;
-	}
-	public void setTotalOrdinances(int totalOrdinances) {
-		this.totalOrdinances = totalOrdinances;
-	}
+
 	
 }

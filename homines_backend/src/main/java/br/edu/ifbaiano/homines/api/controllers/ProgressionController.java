@@ -1,5 +1,7 @@
 package br.edu.ifbaiano.homines.api.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
@@ -38,7 +40,7 @@ public class ProgressionController {
 	private ModelMapper modelMapper;
 
 	@GetMapping
-	public Progression list(@Valid @PathVariable Long employeeId){
+	public List<Progression> list(@Valid @PathVariable Long employeeId){
 		return progressionRepository.progressionByEmployee(employeeId);
 	}
 	

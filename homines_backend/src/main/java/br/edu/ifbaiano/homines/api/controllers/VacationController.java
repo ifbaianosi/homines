@@ -40,7 +40,7 @@ public class VacationController {
 	ModelMapper modelMapper;
 	
 	@GetMapping
-	public Vacation list(@PathVariable Long employeeId) {
+	public List<Vacation> list(@PathVariable Long employeeId) {
 		return vacationRepository.vacationByEmployee(employeeId);
 	}
 	

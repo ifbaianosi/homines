@@ -11,14 +11,14 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
-public class Career {
+public class Sector {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotBlank
-	private String career;
+	private String sector;
 
 	public Long getId() {
 		return id;
@@ -28,12 +28,12 @@ public class Career {
 		this.id = id;
 	}
 
-	public String getCareer() {
-		return career;
+	public String getSector() {
+		return sector;
 	}
 
-	public void setCareer(String career) {
-		this.career = career;
+	public void setSector(String sector) {
+		this.sector = sector;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class Career {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Career other = (Career) obj;
+		Sector other = (Sector) obj;
 		return Objects.equals(id, other.id);
 	}
 }

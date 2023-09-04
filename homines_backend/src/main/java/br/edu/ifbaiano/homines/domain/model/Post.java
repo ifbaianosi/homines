@@ -7,18 +7,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table
-public class Career {
+public class Post {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
-	private String career;
+	private String post;
 
 	public Long getId() {
 		return id;
@@ -28,12 +26,12 @@ public class Career {
 		this.id = id;
 	}
 
-	public String getCareer() {
-		return career;
+	public String getPost() {
+		return post;
 	}
 
-	public void setCareer(String career) {
-		this.career = career;
+	public void setPost(String post) {
+		this.post = post;
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class Career {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Career other = (Career) obj;
+		Post other = (Post) obj;
 		return Objects.equals(id, other.id);
 	}
 }

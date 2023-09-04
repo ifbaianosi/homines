@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifbaiano.homines.api.DTO.EmployeeDTO;
+import br.edu.ifbaiano.homines.api.DTO.OrdinanceDTO;
+import br.edu.ifbaiano.homines.api.DTO.ProbationaryStageDTO;
+import br.edu.ifbaiano.homines.api.DTO.ProgressionDTO;
+import br.edu.ifbaiano.homines.api.DTO.VacationDTO;
 import br.edu.ifbaiano.homines.domain.exception.EntityNotFoundException;
 import br.edu.ifbaiano.homines.domain.model.Employee;
 import br.edu.ifbaiano.homines.domain.model.Ordinance;
@@ -63,62 +67,79 @@ public class EmployeeService {
 	public EmployeeDTO createEmployeeDTO(Long employeeId) {
 		
 		Employee employee = new Employee();
+		
 		ProbationaryStage probationaryStage = new ProbationaryStage();
-		Progression progression = new Progression();
-		Vacation vacation = new Vacation();
+		ProbationaryStageDTO probationaryStageDTO = new ProbationaryStageDTO();
+		
+		List<Progression> progressions = new ArrayList<>();
+		ProgressionDTO progressionDTO = new ProgressionDTO(); 
+		
+		List<Vacation> vacations = new ArrayList<>();
+		VacationDTO vacationDTO = new VacationDTO();
+		
 		List<Ordinance> ordinances = new ArrayList<>();
+		OrdinanceDTO ordinanceDTO = new OrdinanceDTO();
+		
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 
 		employee = findOrFail(employeeId);
 		probationaryStage = probationaryStageRepository.byEmployee(employeeId);
-		progression = progressionRepository.progressionByEmployee(employeeId);
-		vacation = vacationRepository.vacationByEmployee(employeeId);
+		progressions = progressionRepository.progressionByEmployee(employeeId);
+		vacations = vacationRepository.vacationByEmployee(employeeId);
 		ordinances = ordinanceRepository.ordinanceByEmployee(employeeId);
 
 		employeeDTO.setName(employee.getName());
 		employeeDTO.setSiape(employee.getSiape());
 		employeeDTO.setEmail(employee.getEmail());
 		
+		employeeDTO.setProbationaryStageDTO(probationaryStageDTO);
+		employeeDTO.setProgressionDTO(progressionDTO);
+		employeeDTO.setVacationDTO(vacationDTO);
+		employeeDTO.setOrdinanceDTO(ordinanceDTO);
+		
 		if((probationaryStage.getFirstAvaliationDateEnd().isAfter(LocalDate.now())
 				&& probationaryStage.getSecondAvaliationDateBegin().isAfter(LocalDate.now())
 				&& probationaryStage.getThirdAvaliationDateBegin().isAfter(LocalDate.now()))
 				|| probationaryStage.getFirstAvaliationDateEnd().isEqual(LocalDate.now())) {
 			
-			employeeDTO.setProbationaryStageAvaliation("1ª Avaliação");
-			employeeDTO.setNextAvaliation(probationaryStage.getSecondAvaliationDateBegin().toString());
+			employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation("1ª Avaliação");
+			employeeDTO.getProbationaryStageDTO().setNextAvaliation(probationaryStage.getSecondAvaliationDateBegin().toString());
 			
 		}else if((probationaryStage.getFirstAvaliationDateEnd().isBefore(LocalDate.now())
 				&& probationaryStage.getSecondAvaliationDateEnd().isAfter(LocalDate.now())
 				&& probationaryStage.getThirdAvaliationDateBegin().isAfter(LocalDate.now()))
 				|| probationaryStage.getSecondAvaliationDateEnd().isEqual(LocalDate.now())) {
 			
-			employeeDTO.setProbationaryStageAvaliation("2ª Avaliação");
-			employeeDTO.setNextAvaliation(probationaryStage.getThirdAvaliationDateBegin().toString());
+			employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation("2ª Avaliação");
+			employeeDTO.getProbationaryStageDTO().setNextAvaliation(probationaryStage.getThirdAvaliationDateBegin().toString());
 		}else if((probationaryStage.getFirstAvaliationDateEnd().isBefore(LocalDate.now())
 				&& probationaryStage.getSecondAvaliationDateEnd().isBefore(LocalDate.now())
 				&& probationaryStage.getThirdAvaliationDateBegin().isBefore(LocalDate.now())) 
 				|| probationaryStage.getThirdAvaliationDateBegin().isEqual(LocalDate.now())) {
 			
-			employeeDTO.setProbationaryStageAvaliation("3ª Avaliação");
-			employeeDTO.setNextAvaliation("Última avaliação");
+			employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation("3ª Avaliação");
+			employeeDTO.getProbationaryStageDTO().setNextAvaliation(null);
+		}
+
+		if(progressions != null) {
+			int position = progressions.size();
+			employeeDTO.getProgressionDTO().setActualLevel(progressions.get(position-1).getActualLevel());
+			employeeDTO.getProgressionDTO().setNextLevel(progressions.get(position-1).getNextLevel());
+			employeeDTO.getProgressionDTO().setNextProgressionDate(progressions.get(position-1).getNextProgressionDate());
+			employeeDTO.getProgressionDTO().setLastProgressionDate(progressions.get(position-1).getLastProgressionDate());
 		}
 		
-
-		if (progression.getActualLevel() != null && progression.getLastProgressionDate() != null
-				&& progression.getNextLevel() != null && progression.getNextProgressionDate() != null) {
-			employeeDTO
-					.setActualProgression(progression.getActualLevel() + " - " + progression.getLastProgressionDate());
-			employeeDTO.setNextProgression(progression.getNextLevel() + " - " + progression.getNextProgressionDate());
-
+		if(vacations != null) {
+			int position = vacations.size();
+			employeeDTO.getVacationDTO().setVacationYear(vacations.get(position-1).getYear());
 		}
 
-		if (vacation != null) {
-			employeeDTO.setVacationYear(vacation.getYear());
+		if(ordinances != null) {
+			int position = ordinances.size();
+			employeeDTO.getOrdinanceDTO().setOrdinance(ordinances.get(position-1).getOrdinance());
+			employeeDTO.getOrdinanceDTO().setOrdinanceDate((ordinances.get(position-1).getDate()));		
+			employeeDTO.getOrdinanceDTO().setTotalOrdinances(ordinances.size());			
 		}
-
-		employeeDTO.setOrdinance(ordinances.get(0).getOrdinance());
-		employeeDTO.setOrdinancesDate(ordinances.get(0).getDate());		
-		employeeDTO.setTotalOrdinances(ordinances.size());
 
 		return employeeDTO;
 	}

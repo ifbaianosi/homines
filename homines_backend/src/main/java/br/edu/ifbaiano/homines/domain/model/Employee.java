@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -39,7 +39,9 @@ public class Employee {
 	
 	private String phone;
 	
-	private String classes;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Class classes;
 	
 	@NotBlank
 	private String siape;
@@ -47,10 +49,14 @@ public class Employee {
 	private String functions;
 	
 	private String degree;
-		
-	private String stand;
 	
-	private String sector;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Stand stand;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Sector sector;
 	
 	private LocalDate entryDate;
 	
@@ -58,11 +64,14 @@ public class Employee {
 	
 	private String substituteOf;
 	
-	private String post;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Post post;
 	
 	private String frequency;
 	
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Career career;
 
 	public Long getId() {
@@ -129,11 +138,11 @@ public class Employee {
 		this.phone = phone;
 	}
 
-	public String getClasses() {
+	public Class getClasses() {
 		return classes;
 	}
 
-	public void setClasses(String classes) {
+	public void setClasses(Class classes) {
 		this.classes = classes;
 	}
 
@@ -161,19 +170,19 @@ public class Employee {
 		this.degree = degree;
 	}
 
-	public String getStand() {
+	public Stand getStand() {
 		return stand;
 	}
 
-	public void setStand(String stand) {
+	public void setStand(Stand stand) {
 		this.stand = stand;
 	}
 
-	public String getSector() {
+	public Sector getSector() {
 		return sector;
 	}
 
-	public void setSector(String sector) {
+	public void setSector(Sector sector) {
 		this.sector = sector;
 	}
 
@@ -201,11 +210,11 @@ public class Employee {
 		this.substituteOf = substituteOf;
 	}
 
-	public String getPost() {
+	public Post getPost() {
 		return post;
 	}
 
-	public void setPost(String post) {
+	public void setPost(Post post) {
 		this.post = post;
 	}
 
