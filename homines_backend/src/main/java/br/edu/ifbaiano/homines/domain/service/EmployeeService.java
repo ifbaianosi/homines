@@ -82,11 +82,14 @@ public class EmployeeService {
 		
 		EmployeeDTO employeeDTO = new EmployeeDTO();
 
-		employee = findOrFail(employeeId);
+		employee = findOrFail(employeeId);		
+		
 		probationaryStage = probationaryStageRepository.byEmployee(employeeId);
 		progressions = progressionRepository.progressionByEmployee(employeeId);
 		vacations = vacationRepository.vacationByEmployee(employeeId);
 		ordinances = ordinanceRepository.ordinanceByEmployee(employeeId);
+		
+		probationaryStageDTO = verifyAvaliation(probationaryStage);
 
 		employeeDTO.setName(employee.getName());
 		employeeDTO.setSiape(employee.getSiape());
@@ -97,31 +100,10 @@ public class EmployeeService {
 		employeeDTO.setVacationDTO(vacationDTO);
 		employeeDTO.setOrdinanceDTO(ordinanceDTO);
 		
-		if((probationaryStage.getFirstAvaliationDateEnd().isAfter(LocalDate.now())
-				&& probationaryStage.getSecondAvaliationDateBegin().isAfter(LocalDate.now())
-				&& probationaryStage.getThirdAvaliationDateBegin().isAfter(LocalDate.now()))
-				|| probationaryStage.getFirstAvaliationDateEnd().isEqual(LocalDate.now())) {
-			
-			employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation("1ª Avaliação");
-			employeeDTO.getProbationaryStageDTO().setNextAvaliation(probationaryStage.getSecondAvaliationDateBegin().toString());
-			
-		}else if((probationaryStage.getFirstAvaliationDateEnd().isBefore(LocalDate.now())
-				&& probationaryStage.getSecondAvaliationDateEnd().isAfter(LocalDate.now())
-				&& probationaryStage.getThirdAvaliationDateBegin().isAfter(LocalDate.now()))
-				|| probationaryStage.getSecondAvaliationDateEnd().isEqual(LocalDate.now())) {
-			
-			employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation("2ª Avaliação");
-			employeeDTO.getProbationaryStageDTO().setNextAvaliation(probationaryStage.getThirdAvaliationDateBegin().toString());
-		}else if((probationaryStage.getFirstAvaliationDateEnd().isBefore(LocalDate.now())
-				&& probationaryStage.getSecondAvaliationDateEnd().isBefore(LocalDate.now())
-				&& probationaryStage.getThirdAvaliationDateBegin().isBefore(LocalDate.now())) 
-				|| probationaryStage.getThirdAvaliationDateBegin().isEqual(LocalDate.now())) {
-			
-			employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation("3ª Avaliação");
-			employeeDTO.getProbationaryStageDTO().setNextAvaliation(null);
-		}
-
-		if(progressions != null) {
+		employeeDTO.getProbationaryStageDTO().setProbationaryStageAvaliation(probationaryStageDTO.getProbationaryStageAvaliation());
+		employeeDTO.getProbationaryStageDTO().setNextAvaliation(probationaryStageDTO.getNextAvaliation());
+		
+		if(!progressions.isEmpty()) {
 			int position = progressions.size();
 			employeeDTO.getProgressionDTO().setActualLevel(progressions.get(position-1).getActualLevel());
 			employeeDTO.getProgressionDTO().setNextLevel(progressions.get(position-1).getNextLevel());
@@ -129,12 +111,12 @@ public class EmployeeService {
 			employeeDTO.getProgressionDTO().setLastProgressionDate(progressions.get(position-1).getLastProgressionDate());
 		}
 		
-		if(vacations != null) {
+		if(!vacations.isEmpty()) {
 			int position = vacations.size();
 			employeeDTO.getVacationDTO().setVacationYear(vacations.get(position-1).getYear());
 		}
 
-		if(ordinances != null) {
+		if(!ordinances.isEmpty()) {
 			int position = ordinances.size();
 			employeeDTO.getOrdinanceDTO().setOrdinance(ordinances.get(position-1).getOrdinance());
 			employeeDTO.getOrdinanceDTO().setOrdinanceDate((ordinances.get(position-1).getDate()));		
@@ -142,5 +124,51 @@ public class EmployeeService {
 		}
 
 		return employeeDTO;
+	}
+	
+	public ProbationaryStageDTO verifyAvaliation(ProbationaryStage probationaryStage) {
+		
+		ProbationaryStageDTO probationaryStageDTO = new ProbationaryStageDTO();
+
+		
+		if((probationaryStage.getFirstAvaliationDateEnd().isAfter(LocalDate.now())
+				&& probationaryStage.getSecondAvaliationDateBegin().isAfter(LocalDate.now())
+				&& probationaryStage.getThirdAvaliationDateBegin().isAfter(LocalDate.now()))
+				|| probationaryStage.getFirstAvaliationDateEnd().isEqual(LocalDate.now())) {
+			
+			probationaryStageDTO.setProbationaryStageAvaliation("1ª Avaliação");
+			probationaryStageDTO.setNextAvaliation(probationaryStage.getSecondAvaliationDateBegin().toString());
+			probationaryStageDTO.setAvaliation(1);
+			probationaryStageDTO.setSituationFinished(false);
+			
+		}else if((probationaryStage.getFirstAvaliationDateEnd().isBefore(LocalDate.now())
+				&& probationaryStage.getSecondAvaliationDateEnd().isAfter(LocalDate.now())
+				&& probationaryStage.getThirdAvaliationDateBegin().isAfter(LocalDate.now()))
+				|| probationaryStage.getSecondAvaliationDateEnd().isEqual(LocalDate.now())) {
+			
+			probationaryStageDTO.setProbationaryStageAvaliation("2ª Avaliação");
+			probationaryStageDTO.setNextAvaliation(probationaryStage.getThirdAvaliationDateBegin().toString());
+			probationaryStageDTO.setAvaliation(2);
+			probationaryStageDTO.setSituationFinished(false);
+			
+		}else if((probationaryStage.getFirstAvaliationDateEnd().isBefore(LocalDate.now())
+				&& probationaryStage.getSecondAvaliationDateEnd().isBefore(LocalDate.now())
+				&& probationaryStage.getThirdAvaliationDateBegin().isBefore(LocalDate.now())) 
+				&& (probationaryStage.getThirdAvaliationDateBegin().isEqual(LocalDate.now())
+				|| probationaryStage.getThirdAvaliationDateEnd().isAfter(LocalDate.now()))) {
+			
+			probationaryStageDTO.setProbationaryStageAvaliation("3ª Avaliação");
+			probationaryStageDTO.setNextAvaliation(null);
+			probationaryStageDTO.setAvaliation(3);
+			probationaryStageDTO.setSituationFinished(false);
+		}else {
+			probationaryStageDTO.setProbationaryStageAvaliation("3ª Avaliação");
+			probationaryStageDTO.setNextAvaliation(null);
+			probationaryStageDTO.setAvaliation(3);
+			probationaryStageDTO.setSituationFinished(true);
+		}
+
+		
+		return probationaryStageDTO;
 	}
 }

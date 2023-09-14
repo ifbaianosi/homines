@@ -5,7 +5,7 @@ public class ProbationaryStageDTO {
 	private String probationaryStageAvaliation;
 	private String nextAvaliation;
 	private int avaliation;
-	private boolean situation;
+	private boolean situationFinished;
 	
 	public String getProbationaryStageAvaliation() {
 		return probationaryStageAvaliation;
@@ -25,11 +25,11 @@ public class ProbationaryStageDTO {
 	public void setAvaliation(int avaliation) {
 		this.avaliation = avaliation;
 	}
-	public boolean isSituation() {
-		return situation;
+	public boolean isSituationFinished() {
+		return situationFinished;
 	}
-	public void setSituation(boolean situation) {
-		this.situation = situation;
+	public void setSituationFinished(boolean situationFinished) {
+		this.situationFinished = situationFinished;
 	}
 	
 }

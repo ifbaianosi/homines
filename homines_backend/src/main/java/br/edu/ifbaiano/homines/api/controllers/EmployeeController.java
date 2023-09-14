@@ -39,6 +39,11 @@ public class EmployeeController {
 		return employeeRepository.findAll();
 	}
 	
+	@GetMapping("/by-name-or-siape")
+	public List<Employee> findByName(String name, String siape){		
+		return employeeRepository.findBynameLikeOrSiapeLike(name, siape);
+	}
+	
 	@GetMapping("/career-count")
 	public HashMap<String, Integer> careerCount(){
 		HashMap<String, Integer> career = new HashMap<String, Integer>();

@@ -20,17 +20,17 @@ public class Vacation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private LocalDate period1DateBegin;
+	private LocalDate firstPeriodDateBegin;
 	
-	private LocalDate period1DateEnd;
+	private LocalDate firstPeriodDateEnd;
 	
-	private LocalDate period2DateBegin;
+	private LocalDate secondPeriodDateBegin;
 	
-	private LocalDate period2DateEnd;
+	private LocalDate secondPeriodDateEnd;
 	
-	private LocalDate period3DateBegin;
+	private LocalDate thirdPeriodDateBegin;
 	
-	private LocalDate period3DateEnd;
+	private LocalDate thirdPeriodDateEnd;
 	
 	@NotNull
 	private int year;
@@ -47,52 +47,52 @@ public class Vacation {
 		this.id = id;
 	}
 
-	public LocalDate getPeriod1DateBegin() {
-		return period1DateBegin;
+	public LocalDate getFirstPeriodDateBegin() {
+		return firstPeriodDateBegin;
 	}
 
-	public void setPeriod1DateBegin(LocalDate period1DateBegin) {
-		this.period1DateBegin = period1DateBegin;
+	public void setFirstPeriodDateBegin(LocalDate firstPeriodDateBegin) {
+		this.firstPeriodDateBegin = firstPeriodDateBegin;
 	}
 
-	public LocalDate getPeriod1DateEnd() {
-		return period1DateEnd;
+	public LocalDate getFirstPeriodDateEnd() {
+		return firstPeriodDateEnd;
 	}
 
-	public void setPeriod1DateEnd(LocalDate period1DateEnd) {
-		this.period1DateEnd = period1DateEnd;
+	public void setFirstPeriodDateEnd(LocalDate firstPeriodDateEnd) {
+		this.firstPeriodDateEnd = firstPeriodDateEnd;
 	}
 
-	public LocalDate getPeriod2DateBegin() {
-		return period2DateBegin;
+	public LocalDate getSecondPeriodDateBegin() {
+		return secondPeriodDateBegin;
 	}
 
-	public void setPeriod2DateBegin(LocalDate period2DateBegin) {
-		this.period2DateBegin = period2DateBegin;
+	public void setSecondPeriodDateBegin(LocalDate secondPeriodDateBegin) {
+		this.secondPeriodDateBegin = secondPeriodDateBegin;
 	}
 
-	public LocalDate getPeriod2DateEnd() {
-		return period2DateEnd;
+	public LocalDate getSecondPeriodDateEnd() {
+		return secondPeriodDateEnd;
 	}
 
-	public void setPeriod2DateEnd(LocalDate period2DateEnd) {
-		this.period2DateEnd = period2DateEnd;
+	public void setSecondPeriodDateEnd(LocalDate secondPeriodDateEnd) {
+		this.secondPeriodDateEnd = secondPeriodDateEnd;
 	}
 
-	public LocalDate getPeriod3DateBegin() {
-		return period3DateBegin;
+	public LocalDate getThirdPeriodDateBegin() {
+		return thirdPeriodDateBegin;
 	}
 
-	public void setPeriod3DateBegin(LocalDate period3DateBegin) {
-		this.period3DateBegin = period3DateBegin;
+	public void setThirdPeriodDateBegin(LocalDate thirdPeriodDateBegin) {
+		this.thirdPeriodDateBegin = thirdPeriodDateBegin;
 	}
 
-	public LocalDate getPeriod3DateEnd() {
-		return period3DateEnd;
+	public LocalDate getThirdPeriodDateEnd() {
+		return thirdPeriodDateEnd;
 	}
 
-	public void setPeriod3DateEnd(LocalDate period3DateEnd) {
-		this.period3DateEnd = period3DateEnd;
+	public void setThirdPeriodDateEnd(LocalDate thirdPeriodDateEnd) {
+		this.thirdPeriodDateEnd = thirdPeriodDateEnd;
 	}
 
 	public int getYear() {

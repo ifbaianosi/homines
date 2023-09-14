@@ -8,11 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepositoryQueries;
-import br.edu.ifbaiano.homines.domain.repository.ProbationaryStageRepository;
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
@@ -20,51 +18,61 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 	@PersistenceContext
 	private EntityManager manager;
 	
-	@Autowired
-	private ProbationaryStageRepository probationaryStageRepository;
-
 	@Override
 	public List<Object[]> find(String career, String classes, String stand, String post, String sector, String avaliation, String situation) {
 		
-		var jpql = new StringBuilder();
+		var jpqlOverview = new StringBuilder();
+		var jpqlTAE = new StringBuilder();
+		var jpqlDocente = new StringBuilder();
 		
 		
 		var parameters = new HashMap<String, Object>();
 		
-		List<Long> probationaryStages = new ArrayList<>();
 		List<Object[]> dto = new ArrayList<>();
 		Object[] total = new Object[3];
 		
-		probationaryStages = probationaryStageRepository.onlyEmployeeId();
-		jpql.append("select pb.employee.id from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0");
-		
-		probationaryStages.stream().forEach(item -> System.out.println(item));
+		jpqlOverview.append("select e.name, e.siape from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0");
+		jpqlTAE.append("select count(e.career) from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'TAE'");
+		jpqlDocente.append("select count(e.career) from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'DOCENTE'");
 
 		
 		if(career != null) {
-			jpql.append("and e.career.career = :career ");
+			jpqlOverview.append("and e.career.career = :career ");
+			jpqlTAE.append("and e.career.career = :career ");
+			jpqlDocente.append("and e.career.career = :career ");
+			
 			parameters.put("career", career);
 		}
 		
 		if(classes != null) {
-			jpql.append("and e.classes.classes = :classes ");
+			jpqlOverview.append("and e.classes.classes = :classes ");
+			jpqlTAE.append("and e.classes.classes = :classes ");
+			jpqlDocente.append("and e.classes.classes = :classes ");
 			parameters.put("classes", classes);
 		}
 		
 		if(stand != null) {
-			jpql.append("and e.stand.stand = :stand ");
+			jpqlOverview.append("and e.stand.stand = :stand ");
+			jpqlTAE.append("and e.stand.stand = :stand ");
+			jpqlDocente.append("and e.stand.stand = :stand ");
 			parameters.put("stand", stand);
 		}
 		
 		if(post != null) {
-			jpql.append("and e.post.post = :post ");
+			jpqlOverview.append("and e.post.post = :post ");
+			jpqlTAE.append("and e.post.post = :post ");
+			jpqlDocente.append("and e.post.post = :post ");
 			parameters.put("post", post);
 		}
 		
 		if(sector != null) {
-			jpql.append("and e.sector.sector = :sector ");
+			jpqlOverview.append("and e.sector.sector = :sector ");
+			jpqlTAE.append("and e.sector.sector = :sector ");
+			jpqlDocente.append("and e.sector.sector = :sector ");
 			parameters.put("sector", sector);
 		}
+		
+		//TODO Colocar o filtro das avaliações e situação
 		
 		if(avaliation != null) {
 			
@@ -74,13 +82,24 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 			
 		}
 		
-	TypedQuery<Object[]> query = manager.createQuery(jpql.toString(), Object[].class);
-			parameters.forEach((key, value) -> query.setParameter(key, value));
+	TypedQuery<Object[]> queryTotal = manager.createQuery(jpqlOverview.toString(), Object[].class);
+			parameters.forEach((key, value) -> queryTotal.setParameter(key, value));
+	
+	TypedQuery<Object[]> queryTAE = manager.createQuery(jpqlTAE.toString(), Object[].class);
+			parameters.forEach((key, value) -> queryTAE.setParameter(key, value));
 			
-			dto = query.getResultList();
-			total[0] = query.getResultList().size();
+	TypedQuery<Object[]> queryDocente = manager.createQuery(jpqlDocente.toString(), Object[].class);
+			parameters.forEach((key, value) -> queryDocente.setParameter(key, value));
+			
+			dto = queryTotal.getResultList();
+			total[0] = queryTotal.getResultList().size();
+			total[1] = queryTAE.getResultList();
+			total[2] = queryDocente.getResultList();
+		
+			//TODO Organizar os objetos do Overview
+			
 			dto.add(total);
 			
-			return dto;		
+			return dto;
 	}
 }

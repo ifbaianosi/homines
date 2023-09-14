@@ -26,7 +26,7 @@ public class OrdinanceService {
 	public Ordinance findOrFail(Long ordinanceId) {
 		return ordinanceRepository.findById(ordinanceId)
 				.orElseThrow(() -> new EntityNotFoundException(
-						String .format("Férias com o id %d não foi encontrado.", ordinanceId)));
+						String.format("Férias com o id %d não foi encontrado.", ordinanceId)));
 	}
 
 }

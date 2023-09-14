@@ -68,6 +68,8 @@ public class Employee {
 	@JoinColumn(nullable = false)
 	private Post post;
 	
+	private boolean active = true;
+	
 	private String frequency;
 	
 	@ManyToOne
@@ -216,6 +218,14 @@ public class Employee {
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getFrequency() {
