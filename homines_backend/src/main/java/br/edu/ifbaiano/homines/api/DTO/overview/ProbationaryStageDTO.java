@@ -1,4 +1,4 @@
-package br.edu.ifbaiano.homines.api.DTO;
+package br.edu.ifbaiano.homines.api.DTO.overview;
 
 public class ProbationaryStageDTO {
 

@@ -9,11 +9,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.ifbaiano.homines.api.DTO.EmployeeDTO;
-import br.edu.ifbaiano.homines.api.DTO.OrdinanceDTO;
-import br.edu.ifbaiano.homines.api.DTO.ProbationaryStageDTO;
-import br.edu.ifbaiano.homines.api.DTO.ProgressionDTO;
-import br.edu.ifbaiano.homines.api.DTO.VacationDTO;
+import br.edu.ifbaiano.homines.api.DTO.overview.EmployeeDTO;
+import br.edu.ifbaiano.homines.api.DTO.overview.OrdinanceDTO;
+import br.edu.ifbaiano.homines.api.DTO.overview.ProbationaryStageDTO;
+import br.edu.ifbaiano.homines.api.DTO.overview.ProgressionDTO;
+import br.edu.ifbaiano.homines.api.DTO.overview.VacationDTO;
 import br.edu.ifbaiano.homines.domain.exception.EntityNotFoundException;
 import br.edu.ifbaiano.homines.domain.model.Employee;
 import br.edu.ifbaiano.homines.domain.model.Ordinance;

@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.edu.ifbaiano.homines.api.DTO.EmployeeDTO;
+import br.edu.ifbaiano.homines.api.DTO.overview.EmployeeDTO;
 
 @Component
 public class EmployeeAssembler {

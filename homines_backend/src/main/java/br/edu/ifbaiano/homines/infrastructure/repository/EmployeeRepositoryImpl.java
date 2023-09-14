@@ -1,8 +1,6 @@
 package br.edu.ifbaiano.homines.infrastructure.repository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +8,8 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO;
+import br.edu.ifbaiano.homines.api.DTO.query.QueryDTO;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepositoryQueries;
 
 @Repository
@@ -19,21 +19,20 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 	private EntityManager manager;
 	
 	@Override
-	public List<Object[]> find(String career, String classes, String stand, String post, String sector, String avaliation, String situation) {
+	public QueryDTO find(String career, String classes, String stand, String post, String sector, String avaliation, String situation) {
 		
 		var jpqlOverview = new StringBuilder();
 		var jpqlTAE = new StringBuilder();
 		var jpqlDocente = new StringBuilder();
-		
-		
+			
 		var parameters = new HashMap<String, Object>();
-		
-		List<Object[]> dto = new ArrayList<>();
-		Object[] total = new Object[3];
-		
-		jpqlOverview.append("select e.name, e.siape from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0");
-		jpqlTAE.append("select count(e.career) from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'TAE'");
-		jpqlDocente.append("select count(e.career) from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'DOCENTE'");
+
+		jpqlOverview.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape) "
+				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 ");
+		jpqlTAE.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape) "
+				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'TAE'");
+		jpqlDocente.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape) "
+				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'DOCENTE'");
 
 		
 		if(career != null) {
@@ -82,24 +81,22 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 			
 		}
 		
-	TypedQuery<Object[]> queryTotal = manager.createQuery(jpqlOverview.toString(), Object[].class);
-			parameters.forEach((key, value) -> queryTotal.setParameter(key, value));
+	TypedQuery<EmployeeQueryDTO> queryEmployee = manager.createQuery(jpqlOverview.toString(), EmployeeQueryDTO.class);
+			parameters.forEach((key, value) -> queryEmployee.setParameter(key, value));
 	
-	TypedQuery<Object[]> queryTAE = manager.createQuery(jpqlTAE.toString(), Object[].class);
+	TypedQuery<EmployeeQueryDTO> queryTAE = manager.createQuery(jpqlTAE.toString(), EmployeeQueryDTO.class);
 			parameters.forEach((key, value) -> queryTAE.setParameter(key, value));
 			
-	TypedQuery<Object[]> queryDocente = manager.createQuery(jpqlDocente.toString(), Object[].class);
+	TypedQuery<EmployeeQueryDTO> queryDocente = manager.createQuery(jpqlDocente.toString(), EmployeeQueryDTO.class);
 			parameters.forEach((key, value) -> queryDocente.setParameter(key, value));
+					
+			QueryDTO queryDTO = new QueryDTO();
 			
-			dto = queryTotal.getResultList();
-			total[0] = queryTotal.getResultList().size();
-			total[1] = queryTAE.getResultList();
-			total[2] = queryDocente.getResultList();
-		
-			//TODO Organizar os objetos do Overview
-			
-			dto.add(total);
-			
-			return dto;
+			queryDTO.setEmployeeQueryDTO(queryEmployee.getResultList());
+			queryDTO.setTotal(queryEmployee.getResultList().size());
+			queryDTO.setDocente(queryDocente.getResultList().size());
+			queryDTO.setTae(queryTAE.getResultList().size());
+
+			return queryDTO;
 	}
 }
