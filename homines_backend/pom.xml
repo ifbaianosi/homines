@@ -15,6 +15,7 @@
 	<description>Programa de controle e geração de relatórios do Núcleo de Gestão de Pessoas.</description>
 	<properties>
 		<java.version>17</java.version>
+		<font.arial.path>C:\Users\aijalon.silva\Desktop\Arial.jar</font.arial.path>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -67,6 +68,23 @@
 		    <artifactId>spring-mock-mvc</artifactId>
 		    <scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.20.6</version>
+		</dependency>
+		<dependency>
+  			<groupId>net.sf.jasperreports</groupId>
+  			<artifactId>jasperreports-functions</artifactId>
+  			<version>6.20.6</version>
+		</dependency>
+		<dependency>
+			<groupId>fonts.arial</groupId>
+			<artifactId>arial</artifactId>
+			<version>1</version>
+			<scope>system</scope>
+			<systemPath>${font.arial.path}</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -74,6 +92,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

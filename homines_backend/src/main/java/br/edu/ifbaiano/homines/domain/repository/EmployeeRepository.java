@@ -1,7 +1,7 @@
 package br.edu.ifbaiano.homines.domain.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,6 +18,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, Emplo
 	@Query("select count(e.career) from Employee e")
 	Integer careerCount();
 	
-	List<Employee> findBynameLikeOrSiapeLike(String name, String siape);
+	@Query("from Employee e where (e.name like %:name% or e.siape IS NULL) AND (e.siape like %:siape% or e.name IS NULL)")
+	Page<Employee> searchByNameOrSiape(String name, String siape, Pageable pageable);
 	
 }

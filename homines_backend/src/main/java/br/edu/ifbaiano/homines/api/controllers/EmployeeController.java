@@ -1,13 +1,18 @@
 package br.edu.ifbaiano.homines.api.controllers;
 
+
 import java.util.HashMap;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +29,7 @@ import br.edu.ifbaiano.homines.api.DTO.query.QueryDTO;
 import br.edu.ifbaiano.homines.domain.model.Employee;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepository;
 import br.edu.ifbaiano.homines.domain.service.EmployeeService;
+import br.edu.ifbaiano.homines.domain.service.QueryService;
 
 @RestController
 @RequestMapping("/employees")
@@ -33,16 +39,19 @@ public class EmployeeController {
 	private EmployeeRepository employeeRepository;
 	
 	@Autowired
+	private QueryService queryService;
+	
+	@Autowired
 	private EmployeeService employeeService;
 		
 	@GetMapping
-	public List<Employee> list(){
-		return employeeRepository.findAll();
+	public Page<Employee> list(@PageableDefault(size =10) Pageable pageable){
+		return employeeRepository.findAll(pageable);
 	}
 	
 	@GetMapping("/by-name-or-siape")
-	public List<Employee> findByName(String name, String siape){		
-		return employeeRepository.findBynameLikeOrSiapeLike(name, siape);
+	public Page<Employee> findByName(@PageableDefault(size =10) String name, String siape, Pageable pageable){
+		return employeeRepository.searchByNameOrSiape(name, siape, pageable);
 	}
 	
 	@GetMapping("/career-count")
@@ -55,11 +64,26 @@ public class EmployeeController {
 		return career;
 	}
 	
-	@GetMapping("/query")
-	public QueryDTO query(String career, String classes, String stand, String post, String sector, String avaliation, String situation){
-		return employeeRepository.find(career, classes, stand, post, sector, avaliation, situation);
+	@GetMapping(path = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
+	public QueryDTO query(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable){
+		return employeeRepository.find(career, classes, stand, post, sector, avaliation, situation, pageable);
 	}
 	
+	@GetMapping(path = "/query", produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<byte[]> queryPdf(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable){
+		
+		byte[] bytesPdf = queryService.query(career, classes, stand, post, sector, avaliation, situation, pageable);
+		
+		var headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_DISPOSITION, "inline");
+		
+		
+		return ResponseEntity.ok()
+				.contentType(MediaType.APPLICATION_PDF)
+				.headers(headers)
+				.body(bytesPdf);
+	}
+
 	@GetMapping("/{employeeId}")
 	public EmployeeDTO show(@PathVariable Long employeeId) {
 			

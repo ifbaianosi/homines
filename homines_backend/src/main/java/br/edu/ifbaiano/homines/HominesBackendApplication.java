@@ -9,8 +9,5 @@ public class HominesBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HominesBackendApplication.class, args);
 	}
-	
-	//TODO Implementar relatório em PDF
-	//TODO Implementar paginação
 
 }

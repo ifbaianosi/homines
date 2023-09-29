@@ -4,10 +4,12 @@ public class EmployeeQueryDTO {
 	
 	private String name;
 	private String siape;
+	private String career;
 	
-	public EmployeeQueryDTO(String name, String siape) {
+	public EmployeeQueryDTO(String name, String siape, String career) {
 		this.name = name;
 		this.siape = siape;
+		this.career = career;
 	}
 	
 	public String getName() {
@@ -21,6 +23,14 @@ public class EmployeeQueryDTO {
 	}
 	public void setSiape(String siape) {
 		this.siape = siape;
+	}
+
+	public String getCareer() {
+		return career;
+	}
+
+	public void setCareer(String career) {
+		this.career = career;
 	}
 
 }
