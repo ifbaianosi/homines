@@ -68,9 +68,19 @@ public class Employee {
 	@JoinColumn(nullable = false)
 	private Post post;
 	
+	private String frequency;
+	
 	private boolean active = true;
 	
-	private String frequency;
+	private InactiveReason inactiveReason;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Situation situation;
+	
+	private String observation;
+	
+	private String termOfContract;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
@@ -226,6 +236,38 @@ public class Employee {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public InactiveReason getInactiveReason() {
+		return inactiveReason;
+	}
+
+	public void setInactiveReason(InactiveReason inactiveReason) {
+		this.inactiveReason = inactiveReason;
+	}
+
+	public Situation getSituation() {
+		return situation;
+	}
+
+	public void setSituation(Situation situation) {
+		this.situation = situation;
+	}
+
+	public String getObservation() {
+		return observation;
+	}
+
+	public void setObservation(String observation) {
+		this.observation = observation;
+	}
+
+	public String getTermOfContract() {
+		return termOfContract;
+	}
+
+	public void setTermOfContract(String termOfContract) {
+		this.termOfContract = termOfContract;
 	}
 
 	public String getFrequency() {
