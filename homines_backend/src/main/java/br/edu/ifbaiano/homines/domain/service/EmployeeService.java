@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.edu.ifbaiano.homines.api.DTO.overview.EmployeeDTO;
 import br.edu.ifbaiano.homines.api.DTO.overview.OrdinanceDTO;
@@ -19,11 +21,13 @@ import br.edu.ifbaiano.homines.domain.model.Employee;
 import br.edu.ifbaiano.homines.domain.model.Ordinance;
 import br.edu.ifbaiano.homines.domain.model.ProbationaryStage;
 import br.edu.ifbaiano.homines.domain.model.Progression;
+import br.edu.ifbaiano.homines.domain.model.Situation;
 import br.edu.ifbaiano.homines.domain.model.Vacation;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepository;
 import br.edu.ifbaiano.homines.domain.repository.OrdinanceRepository;
 import br.edu.ifbaiano.homines.domain.repository.ProbationaryStageRepository;
 import br.edu.ifbaiano.homines.domain.repository.ProgressionRepository;
+import br.edu.ifbaiano.homines.domain.repository.SituationRepository;
 import br.edu.ifbaiano.homines.domain.repository.VacationRepository;
 
 @Service
@@ -44,6 +48,34 @@ public class EmployeeService {
 	@Autowired
 	private OrdinanceRepository ordinanceRepository;
 
+	@Autowired
+	private SituationRepository situationRepository;
+	
+	
+	public Employee create(Employee employee) {
+		if(employee.getSituation() != null) {
+			situationRepository.save(employee.getSituation());
+		}		
+		return employeeRepository.save(employee);
+	}
+	
+	@Transactional
+	public Employee update(Employee employee, Long employeeId) {
+		Situation situation = null;
+		
+		if(employee.getSituation() != null) {
+		situation = situationRepository.save(employee.getSituation());
+		}
+		
+		Employee employeeFromBD = employeeRepository.lookEmployee(employeeId);
+		System.out.println("----------------->"+employeeFromBD);
+		BeanUtils.copyProperties(employee, employeeFromBD, "id");
+		employeeFromBD.setSituation(situation);
+		employeeFromBD = employeeRepository.save(employeeFromBD);
+				
+		return employeeFromBD;
+	}
+	
 	@Transactional
 	public void delete(Long employeeId) {
 		Employee employee = findOrFail(employeeId);
@@ -54,14 +86,7 @@ public class EmployeeService {
 
 	public Employee findOrFail(Long employeeId) {
 		return employeeRepository.findById(employeeId).orElseThrow(() -> new EntityNotFoundException(
-				String.format("Servidor com o id %d não foi encontrado.", employeeId)));
-	}
-
-	public ProbationaryStage probationaryStage(Long employeeId) {
-
-		probationaryStageRepository.byEmployee(employeeId);
-
-		return null;
+				String.format("Employee with id %d was not founded.", employeeId)));
 	}
 
 	public EmployeeDTO createEmployeeDTO(Long employeeId) {

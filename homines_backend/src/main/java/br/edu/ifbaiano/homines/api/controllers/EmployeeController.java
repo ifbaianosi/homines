@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +24,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifbaiano.homines.api.DTO.overview.EmployeeDTO;
-import br.edu.ifbaiano.homines.api.DTO.query.QueryDTO;
+import br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO;
+import br.edu.ifbaiano.homines.api.DTO.query.QueryCount;
 import br.edu.ifbaiano.homines.domain.model.Employee;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepository;
 import br.edu.ifbaiano.homines.domain.service.EmployeeService;
@@ -65,8 +65,13 @@ public class EmployeeController {
 	}
 	
 	@GetMapping(path = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
-	public QueryDTO query(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable){
+	public Page<EmployeeQueryDTO> query(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable){
 		return employeeRepository.find(career, classes, stand, post, sector, avaliation, situation, pageable);
+	}
+
+	@GetMapping("/filter-count")
+	public QueryCount filterCount(String career, String classes, String stand, String post, String sector, String avaliation, String situation){
+		return employeeRepository.filterCount(career, classes, stand, post, sector, avaliation, situation);
 	}
 	
 	@GetMapping(path = "/query", produces = MediaType.APPLICATION_PDF_VALUE)
@@ -93,15 +98,13 @@ public class EmployeeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Employee create(@Valid @RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+		return employeeService.create(employee);
 	}
 	
 	@PutMapping("/{employeeId}")
 	public ResponseEntity<Employee> update(@PathVariable Long employeeId, 
 			@Valid @RequestBody Employee employee) {
-		Employee employeeFromBD = employeeService.findOrFail(employeeId);
-		BeanUtils.copyProperties(employee, employeeFromBD, "id");
-		employeeFromBD = employeeRepository.save(employeeFromBD);
+		Employee employeeFromBD = employeeService.update(employee, employeeId);
 		
 		return ResponseEntity.ok(employeeFromBD);
 	}

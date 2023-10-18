@@ -7,129 +7,183 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO;
-import br.edu.ifbaiano.homines.api.DTO.query.QueryDTO;
+import br.edu.ifbaiano.homines.api.DTO.query.QueryCount;
 import br.edu.ifbaiano.homines.domain.repository.EmployeeRepositoryQueries;
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 
 	@PersistenceContext
-	private EntityManager manager;
+	private EntityManager manager;				
+	
+	HashMap<String, Object> parameters = new HashMap<String, Object>();
 	
 	@Override
-	public QueryDTO find(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable) {
+	public Page<EmployeeQueryDTO> find(String career, String classes, String stand, String post, String sector, 
+			String avaliation, String situation, Pageable pageable) {
 		
-		var jpqlOverview = new StringBuilder();
-		var jpqlTAE = new StringBuilder();
-		var jpqlDocente = new StringBuilder();
-				
-		var parameters = new HashMap<String, Object>();
+		parameters.clear();
 
+		var jpqlOverview = new StringBuilder();
+		
 		jpqlOverview.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
 				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 ");
-		jpqlTAE.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
-				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'TAE'");
-		jpqlDocente.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
-				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'DOCENTE'");
-
 		
-		if(career != null) {
-			jpqlOverview.append("and e.career.career = :career ");
-			jpqlTAE.append("and e.career.career = :career ");
-			jpqlDocente.append("and e.career.career = :career ");
-			
-			parameters.put("career", career);
+		if(career != null) {			
+			jpqlOverview.append(careerCondition(career));
 		}
 		
 		if(classes != null) {
-			jpqlOverview.append("and e.classes.classes = :classes ");
-			jpqlTAE.append("and e.classes.classes = :classes ");
-			jpqlDocente.append("and e.classes.classes = :classes ");
-			parameters.put("classes", classes);
+			jpqlOverview.append(classCondition(classes));
 		}
 		
 		if(stand != null) {
-			jpqlOverview.append("and e.stand.stand = :stand ");
-			jpqlTAE.append("and e.stand.stand = :stand ");
-			jpqlDocente.append("and e.stand.stand = :stand ");
-			parameters.put("stand", stand);
+			jpqlOverview.append(standCondition(stand));
 		}
 		
 		if(post != null) {
-			jpqlOverview.append("and e.post.post = :post ");
-			jpqlTAE.append("and e.post.post = :post ");
-			jpqlDocente.append("and e.post.post = :post ");
-			parameters.put("post", post);
+			jpqlOverview.append(postCondition(post));
 		}
 		
 		if(sector != null) {
-			jpqlOverview.append("and e.sector.sector = :sector ");
-			jpqlTAE.append("and e.sector.sector = :sector ");
-			jpqlDocente.append("and e.sector.sector = :sector ");
-			parameters.put("sector", sector);
+			jpqlOverview.append(sectorCondition(sector));
 		}
 		
 		if(avaliation != null && situation != null) {
-			
-			if(avaliation.equals("1") && situation.equals("started")) {
-				jpqlOverview.append("and pb.firstAvaliationDateBegin <= :today ");
-				jpqlTAE.append("and pb.firstAvaliationDateBegin <= :today ");
-				jpqlDocente.append("and pb.firstAvaliationDateBegin <= :today ");
-				parameters.put("today", LocalDate.now());
-			}else if(avaliation.equals("1") && situation.equals("finished")) {
-				jpqlOverview.append("and pb.firstAvaliationDateEnd < :today ");
-				jpqlTAE.append("and pb.firstAvaliationDateEnd < :today ");
-				jpqlDocente.append("and pb.firstAvaliationDateEnd < :today ");
-				parameters.put("today", LocalDate.now());
-			}else if(avaliation.equals("2") && situation.equals("started")) {
-				jpqlOverview.append("and pb.secondAvaliationDateBegin <= :today ");
-				jpqlTAE.append("and pb.secondAvaliationDateBegin <= :today ");
-				jpqlDocente.append("and pb.secondAvaliationDateBegin <= :today ");
-				parameters.put("today", LocalDate.now());
-			}else if(avaliation.equals("2") && situation.equals("finished")) {
-				jpqlOverview.append("and pb.secondAvaliationDateEnd < :today ");
-				jpqlTAE.append("and pb.secondAvaliationDateEnd < :today ");
-				jpqlDocente.append("and pb.secondAvaliationDateEnd < :today ");
-				parameters.put("today", LocalDate.now());
-			}else if(avaliation.equals("3") && situation.equals("started")) {
-				jpqlOverview.append("and pb.thirdAvaliationDateBegin <= :today ");
-				jpqlTAE.append("and pb.thirdAvaliationDateBegin <= :today ");
-				jpqlDocente.append("and pb.thirdAvaliationDateBegin <= :today ");
-				parameters.put("today", LocalDate.now());
-			}else if(avaliation.equals("3") && situation.equals("finished")) {
-				jpqlOverview.append("and pb.thirdAvaliationDateEnd < :today ");
-				jpqlTAE.append("and pb.thirdAvaliationDateEnd < :today ");
-				jpqlDocente.append("and pb.thirdAvaliationDateEnd < :today ");
-				parameters.put("today", LocalDate.now());
-			}
-			
+			jpqlOverview.append(avaliationAndSituationCondition(avaliation, situation));
 		}
+			
+			TypedQuery<EmployeeQueryDTO> queryEmployee = manager.createQuery(jpqlOverview.toString(), EmployeeQueryDTO.class);
+					parameters.forEach((key, value) -> queryEmployee.setParameter(key, value));
 
-		
-	TypedQuery<EmployeeQueryDTO> queryEmployee = manager.createQuery(jpqlOverview.toString(), EmployeeQueryDTO.class);
-			parameters.forEach((key, value) -> queryEmployee.setParameter(key, value));
+			Page<EmployeeQueryDTO> page = new PageImpl<>(queryEmployee.getResultList());
+			 
+			 return page;
+	}
 	
-	TypedQuery<EmployeeQueryDTO> queryTAE = manager.createQuery(jpqlTAE.toString(), EmployeeQueryDTO.class);
-			parameters.forEach((key, value) -> queryTAE.setParameter(key, value));
+	@Override
+	public QueryCount filterCount(String career, String classes, String stand, String post, String sector,
+			String avaliation, String situation) {
+		
+		parameters.clear();
+		
+		var jpqlTAE = new StringBuilder();
+		var jpqlDocente = new StringBuilder();
+		
+		jpqlTAE.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
+		+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'TAE' ");
+		jpqlDocente.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
+		+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'DOCENTE' ");
+		
+		if(career != null) {			
+			String condition = careerCondition(career);
 			
-	TypedQuery<EmployeeQueryDTO> queryDocente = manager.createQuery(jpqlDocente.toString(), EmployeeQueryDTO.class);
-			parameters.forEach((key, value) -> queryDocente.setParameter(key, value));
-					
-			QueryDTO queryDTO = new QueryDTO();
-			//queryEmployee.setFirstResult(0);
-			//queryEmployee.setMaxResults(1);
+			jpqlTAE.append(condition);
+			jpqlDocente.append(condition);
+		}
+		
+		if(classes != null) {
+			String condition = classCondition(classes);
 			
-			queryDTO.setEmployeeQueryDTO(queryEmployee.getResultList());
-			queryDTO.setTotal(queryEmployee.getResultList().size());
-			queryDTO.setDocente(queryDocente.getResultList().size());
-			queryDTO.setTae(queryTAE.getResultList().size());
-//TODO Falta fazer a paginação pela TypedQuery 
+			jpqlTAE.append(condition);
+			jpqlDocente.append(condition);
+		}
+		
+		if(stand != null) {
+			String condition = standCondition(stand);
+			
+			jpqlTAE.append(condition);
+			jpqlDocente.append(condition);
+		}
+		
+		if(post != null) {
+			String condition = postCondition(post);
+			
+			jpqlTAE.append(condition);
+			jpqlDocente.append(condition);
+		}
+		
+		if(sector != null) {
+			String condition = sectorCondition(sector);
+			
+			jpqlTAE.append(condition);
+			jpqlDocente.append(condition);
+		}
+		
+		if(avaliation != null && situation != null) {
+			String condition = avaliationAndSituationCondition(avaliation, situation);
+			
+			jpqlTAE.append(condition);
+			jpqlDocente.append(condition);
+		}
+		
+		
+		TypedQuery<EmployeeQueryDTO> queryTAE = manager.createQuery(jpqlTAE.toString(), EmployeeQueryDTO.class);
+				parameters.forEach((key, value) -> queryTAE.setParameter(key, value));
+				
+		TypedQuery<EmployeeQueryDTO> queryDocente = manager.createQuery(jpqlDocente.toString(), EmployeeQueryDTO.class);
+		parameters.forEach((key, value) -> queryDocente.setParameter(key, value));
+				
+		QueryCount queryCount = new QueryCount();
+		
+		queryCount.setDocente(queryDocente.getResultList().size());
+		queryCount.setTae(queryTAE.getResultList().size());
+		queryCount.setTotal(queryCount.getTae()+queryCount.getDocente());
+		
+		return queryCount;
+	}
+	
+	public String careerCondition(String career) {
+		parameters.put("career", career);
+		return "and e.career.career = :career ";
+	}
+	
+	public String classCondition(String classes) {
+		parameters.put("classes", classes);
+		return "and e.classes.classes = :classes ";
+	}
+	
+	public String standCondition(String stand) {
+		parameters.put("stand", stand);
+		return "and e.stand.stand = :stand ";
+	}
+	
+	public String postCondition(String post) {
+		parameters.put("post", post);
+		return "and e.post.post = :post ";
+	}
+	
+	public String sectorCondition(String sector) {
+		parameters.put("sector", sector);
+		return "and e.sector.sector = :sector ";
+	}
+	
+	public String avaliationAndSituationCondition(String avaliation, String situation) {
+	    LocalDate today = LocalDate.now();
+	    var condition = new StringBuilder();
 
-			
-			return queryDTO;
+	    if ("1".equals(avaliation) || "2".equals(avaliation) || "3".equals(avaliation)) {
+	        String dateField = switch (avaliation) {
+	            case "1" -> "firstAvaliationDate";
+	            case "2" -> "secondAvaliationDate";
+	            case "3" -> "thirdAvaliationDate";
+	            default -> throw new IllegalArgumentException("Invalid avaliation: " + avaliation);
+	        };
+
+	        if ("started".equals(situation)) {
+	            condition.append("and pb.").append(dateField).append("Begin <= :today ");
+	        } else if ("finished".equals(situation)) {
+	            condition.append("and pb.").append(dateField).append("End < :today ");
+	        }
+	    }
+
+	    parameters.put("today", today);
+	    return condition.toString();
 	}
 }

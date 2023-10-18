@@ -1,20 +1,11 @@
 package br.edu.ifbaiano.homines.api.DTO.query;
 
-import java.util.List;
+public class QueryCount {
 
-public class QueryDTO {
-
-	private List<EmployeeQueryDTO> EmployeeQueryDTO;
 	private int tae;
 	private int docente;
 	private int total;
 	
-	public List<EmployeeQueryDTO> getEmployeeQueryDTO() {
-		return EmployeeQueryDTO;
-	}
-	public void setEmployeeQueryDTO(List<EmployeeQueryDTO> employeeQueryDTO) {
-		EmployeeQueryDTO = employeeQueryDTO;
-	}
 	public int getTae() {
 		return tae;
 	}

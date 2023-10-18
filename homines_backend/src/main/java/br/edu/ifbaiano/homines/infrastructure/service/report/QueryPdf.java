@@ -32,7 +32,7 @@ public class QueryPdf implements QueryService{
 		parameters.put("REPORT_LOCALE", new Locale("pt", "BR"));
 		
 		var employees = employeeRepositoryQueries.find(career, classes, stand, post, sector, avaliation, situation, pageable);		
-		var dataSource = new JRBeanCollectionDataSource(employees.getEmployeeQueryDTO());
+		var dataSource = new JRBeanCollectionDataSource(employees.getContent());
 		
 		var jasperPrint = JasperFillManager.fillReport(inputStream, parameters, dataSource);
 			

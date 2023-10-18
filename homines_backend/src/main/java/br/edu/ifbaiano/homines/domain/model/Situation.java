@@ -3,11 +3,14 @@ package br.edu.ifbaiano.homines.domain.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table
@@ -17,6 +20,8 @@ public class Situation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name = "situation")
+	@JsonProperty("situation")
 	private SituationEnum situationEnum;
 	
 	private LocalDate situationDate;

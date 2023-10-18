@@ -75,7 +75,7 @@ public class Employee {
 	private InactiveReason inactiveReason;
 	
 	@ManyToOne
-	@JoinColumn(nullable = false)
+	@JoinColumn(nullable = true)
 	private Situation situation;
 	
 	private String observation;

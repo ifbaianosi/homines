@@ -21,4 +21,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long>, Emplo
 	@Query("from Employee e where (e.name like %:name% or e.siape IS NULL) AND (e.siape like %:siape% or e.name IS NULL)")
 	Page<Employee> searchByNameOrSiape(String name, String siape, Pageable pageable);
 	
+	@Query("from Employee e inner join Career c on e.career.id=c.id "
+			+ "inner join Class cl on e.classes.id=cl.id  "
+			+ "inner join Stand s on e.stand.id=s.id "
+			+ "inner join Post p on e.post.id=p.id "
+			+ "inner join Sector se on e.sector.id=se.id "
+			+ "right join Situation sit on e.situation.id=sit.id "
+			+ "where e.id = :employeeId")
+	Employee lookEmployee(Long employeeId);
 }
