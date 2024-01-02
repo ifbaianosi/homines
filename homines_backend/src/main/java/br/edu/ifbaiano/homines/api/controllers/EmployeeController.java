@@ -64,14 +64,14 @@ public class EmployeeController {
 		return career;
 	}
 	
-	@GetMapping(path = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
-	public Page<EmployeeQueryDTO> query(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable){
-		return employeeRepository.find(career, classes, stand, post, sector, avaliation, situation, pageable);
-	}
-
 	@GetMapping("/filter-count")
 	public QueryCount filterCount(String career, String classes, String stand, String post, String sector, String avaliation, String situation){
 		return employeeRepository.filterCount(career, classes, stand, post, sector, avaliation, situation);
+	}
+
+	@GetMapping(path = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Page<EmployeeQueryDTO> query(String career, String classes, String stand, String post, String sector, String avaliation, String situation, Pageable pageable){
+		return employeeRepository.find(career, classes, stand, post, sector, avaliation, situation, pageable);
 	}
 	
 	@GetMapping(path = "/query", produces = MediaType.APPLICATION_PDF_VALUE)
@@ -87,7 +87,7 @@ public class EmployeeController {
 				.contentType(MediaType.APPLICATION_PDF)
 				.headers(headers)
 				.body(bytesPdf);
-	}
+	}	
 
 	@GetMapping("/{employeeId}")
 	public EmployeeDTO show(@PathVariable Long employeeId) {

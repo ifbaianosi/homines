@@ -32,8 +32,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 
 		var jpqlOverview = new StringBuilder();
 		
-		jpqlOverview.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
-				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 ");
+		jpqlOverview.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career, e.situation.situationEnum) "
+				+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 1=1 ");
 		
 		if(career != null) {			
 			jpqlOverview.append(careerCondition(career));
@@ -76,9 +76,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryQueries {
 		var jpqlTAE = new StringBuilder();
 		var jpqlDocente = new StringBuilder();
 		
-		jpqlTAE.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
+		jpqlTAE.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career, e.situation.situationEnum) "
 		+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'TAE' ");
-		jpqlDocente.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career) "
+		jpqlDocente.append("select NEW br.edu.ifbaiano.homines.api.DTO.query.EmployeeQueryDTO ( e.name, e.siape, e.career.career, e.situation.situationEnum) "
 		+ "from ProbationaryStage pb join Employee e on pb.employee.id = e.id where 0 = 0 and e.career.career = 'DOCENTE' ");
 		
 		if(career != null) {			

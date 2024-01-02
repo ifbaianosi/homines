@@ -18,7 +18,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class QueryPdf implements QueryService{
 	
 	@Autowired
-	@Qualifier("employeeRepositoryImpl")
+	@Qualifier("employeeRepository")
 	private EmployeeRepositoryQueries employeeRepositoryQueries;
 
 	@Override
@@ -26,7 +26,7 @@ public class QueryPdf implements QueryService{
 			String situation, Pageable pageable) {
 		
 		try {
-		var inputStream = this.getClass().getResourceAsStream("/reports/Employee.jasper");
+		var inputStream = this.getClass().getResourceAsStream("/reports/Employee_Situation.jasper");
 		
 		var parameters = new HashMap<String, Object>();
 		parameters.put("REPORT_LOCALE", new Locale("pt", "BR"));

@@ -68,7 +68,6 @@ public class EmployeeService {
 		}
 		
 		Employee employeeFromBD = employeeRepository.lookEmployee(employeeId);
-		System.out.println("----------------->"+employeeFromBD);
 		BeanUtils.copyProperties(employee, employeeFromBD, "id");
 		employeeFromBD.setSituation(situation);
 		employeeFromBD = employeeRepository.save(employeeFromBD);

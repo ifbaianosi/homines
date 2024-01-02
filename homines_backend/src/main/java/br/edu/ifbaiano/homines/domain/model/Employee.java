@@ -3,7 +3,10 @@ package br.edu.ifbaiano.homines.domain.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.br.CPF;
+
+import br.edu.ifbaiano.homines.converter.SituationConverter;
 
 @Entity
 @Table
@@ -76,6 +81,8 @@ public class Employee {
 	
 	@ManyToOne
 	@JoinColumn(nullable = true)
+	@Enumerated(EnumType.STRING)
+	@Convert(converter = SituationConverter.class)
 	private Situation situation;
 	
 	private String observation;
