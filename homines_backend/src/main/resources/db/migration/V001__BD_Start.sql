@@ -175,7 +175,7 @@ ENGINE = InnoDB;
 -- Table `homines`.`ordinance`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `homines`.`ordinance` (
-  `id` BIGINT(60) NOT NULL,
+  `id` BIGINT(60) NOT NULL AUTO_INCREMENT,
   `date` DATE NULL,
   `ordinance` VARCHAR(45) NULL,
   `subject` VARCHAR(45) NOT NULL,
